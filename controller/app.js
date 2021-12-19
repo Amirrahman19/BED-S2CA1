@@ -207,6 +207,22 @@ app.get("/product/:id/reviews", (req, res) => {
   });
 });
 
+// app.delete('/product/:id/reviews', (req, res) => {
+//   var productid = parseInt(req.params.id);
+//   if (isNaN(productid)) {
+//     res.status(400).send();
+//     return;
+//   }
+//   Reviews.delete(productid, (error) => {
+//     if (error) {
+//       console.log(error);
+//       res.status(500).send();
+//       return;
+//     };
+//     res.status(204).send();
+//   })
+// })
+
 //Endpoint 12
 app.post("/interest/:userid", (req, res, next) => {
   const userid = parseInt(req.params.userid);

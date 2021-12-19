@@ -45,6 +45,24 @@ const Reviews = {
       }
     });
   }
+  // delete(productid, callback) {
+  //   var dbConn = db.getConnection();
+  //   dbConn.connect((err) => {
+  //     if (err) {
+  //       console.log(err);
+  //       return callback(err, null);
+  //     } else {
+  //       var sql = "DELETE FROM reviews WHERE productid = ?;";
+  //       dbConn.query(sql, [productid], (error, results) => {
+  //         dbConn.end();
+  //         if (error) {
+  //           return callback(error, null);
+  //         };
+  //         return callback(null, results);
+  //       });
+  //     }
+  //   });
+  // }
 };
 
 module.exports = Reviews;
