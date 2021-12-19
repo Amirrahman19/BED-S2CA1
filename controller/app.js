@@ -10,6 +10,8 @@ var User = require('../models/User');
 var Category = require('../models/Category');
 var Product = require('../models/Product');
 var Reviews = require('../models/Reviews');
+var Interest = require('../models/Interest');
+var Promotion_product = require('../models/Promotion_product');
 var app = express();
 
 
@@ -56,7 +58,7 @@ app.post("/users/", (req, res, next) => {
       res.status(500).send();
       return;
     };
-    res.status(201).send({userID});
+    res.status(201).send({ userID });
   });
 });
 
@@ -154,35 +156,19 @@ app.delete('/product/:id/', (req, res) => {
   })
 })
 
-//Endpoint 1
-// app.put("/product/:id/", (req, res, next) => {
-//   const productid = parseInt(req.params.id);
-//   if (isNaN(productid)) {
-//     res.status(400).send();
-//     return;
-//   }
-
-//   Product.edit(productid, req.body, (error) => {
-//     if (error) {
-//       console.log(error);
-//       res.status(500).send();
-//       return;
-//     };
-//     res.status(204).send();
-//   });
-// });
-
 
 //Endpoint 10
 app.post("/product/:id/review/", (req, res, next) => {
   const productid = parseInt(req.params.id);
+  const review = req.body;
   if (isNaN(productid)) {
     res.status(400).send();
     return;
   }
-  else {console.log(typeof(id));
+  else {
+    console.log(typeof (id));
   }
-  Reviews.insert(req.body, productid, (error, reviewid) => {
+  Reviews.insert(review, productid, (error, reviewid) => {
     if (error) {
       console.log(error);
       res.status(500).send();
@@ -193,7 +179,7 @@ app.post("/product/:id/review/", (req, res, next) => {
         return;
       }
     };
-    res.status(201).send({reviewid});
+    res.status(201).send({ reviewid });
   });
 });
 
@@ -222,16 +208,69 @@ app.get("/product/:id/reviews", (req, res) => {
 });
 
 //Endpoint 12
-// app.post("/interest/:userid", (req, res, next) => {
-//   const userid = parseInt(req.params.id);
-//   Interest.insert(req.body, (error, interest) => {
-//     if (error) {
-//       console.log(error);
-//       res.status(500).send();
-//       return;
-//     };
-//     res.status(201).send({interest});
-//   });
-// });
+app.post("/interest/:userid", (req, res, next) => {
+  const userid = parseInt(req.params.userid);
+  const categoryids = req.body.categoryids;
+  catArr = categoryids.split(",");
+
+  Interest.insert(catArr, userid, (error, interest) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+      return;
+    };
+    res.status(201).send({ interest });
+  });
+});
+
+app.post("/promotion/:productid", (req, res, next) => {
+  const productid = parseInt(req.params.productid);
+  const promotion = req.body;
+  Promotion_product.insert(productid, promotion, (error, promotion) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+      return;
+    };
+    res.status(201).send({ promotion });
+  });
+});
+
+app.get("/promotion/:productid", (req, res) => {
+  const productid = parseInt(req.params.productid);
+  // if userID is not a number, send a 400.
+  if (isNaN(productid)) {
+    res.status(400).send();
+    return;
+  }
+  Promotion_product.findByID(productid, (error, products) => {
+    if (error) {
+      res.status(500).send("error sia");
+      return;
+    };
+    // send a 404 if user is not found.
+    if (products === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
+  });
+});
+
+app.delete('/promotion/:productid/', (req, res) => {
+  var productid = parseInt(req.params.productid);
+  if (isNaN(productid)) {
+    res.status(400).send();
+    return;
+  }
+  Promotion_product.delete(productid, (error) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send();
+      return;
+    };
+    res.status(204).send();
+  })
+})
 
 module.exports = app;
