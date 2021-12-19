@@ -223,6 +223,8 @@ app.post("/interest/:userid", (req, res, next) => {
   });
 });
 
+//Advanced feature endpoints
+//Endpoint 13
 app.post("/promotion/:productid", (req, res, next) => {
   const productid = parseInt(req.params.productid);
   const promotion = req.body;
@@ -236,6 +238,8 @@ app.post("/promotion/:productid", (req, res, next) => {
   });
 });
 
+
+//Endpoint 14
 app.get("/promotion/:productid", (req, res) => {
   const productid = parseInt(req.params.productid);
   // if userID is not a number, send a 400.
@@ -257,6 +261,7 @@ app.get("/promotion/:productid", (req, res) => {
   });
 });
 
+//Endpoint 15
 app.delete('/promotion/:productid/', (req, res) => {
   var productid = parseInt(req.params.productid);
   if (isNaN(productid)) {
