@@ -9,7 +9,7 @@ const db = require("./databaseConfig");
 
 const Product = {
 
-  findByID: (productid, callback) => {
+  findProductByID: (productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {

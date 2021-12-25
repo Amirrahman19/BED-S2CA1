@@ -9,7 +9,7 @@ const db = require("./databaseConfig");
 
 const Promotion_product = {
 
-  findByID: (productid, callback) => {
+  findPromotionByID: (productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {

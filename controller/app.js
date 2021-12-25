@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 //Endpoint 2
 app.get("/users/", (req, res, next) => {
-  User.findAll((error, users) => {
+  User.findAllUsers((error, users) => {
     if (error) {
       console.log(error);
       res.status(500).send();
@@ -36,7 +36,7 @@ app.get("/users/:id/", (req, res) => {
     return;
   }
 
-  User.findByID(userID, (error, user) => {
+  User.findUsersByID(userID, (error, user) => {
     if (error) {
       res.status(500).send("error sia");
       return;
@@ -70,7 +70,7 @@ app.put("/users/:id/", (req, res, next) => {
     return;
   }
 
-  User.edit(userID, req.body, (error) => {
+  User.update(userID, req.body, (error) => {
     if (error) {
       console.log(error);
       res.status(500).send();
@@ -82,7 +82,7 @@ app.put("/users/:id/", (req, res, next) => {
 
 //Endpoint 6
 app.get("/category/", (req, res, next) => {
-  Category.findAll((error, users) => {
+  Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
       res.status(500).send();
@@ -112,7 +112,7 @@ app.get("/product/:id/", (req, res) => {
     return;
   }
 
-  Product.findByID(productid, (error, products) => {
+  Product.findProductByID(productid, (error, products) => {
     if (error) {
       res.status(500).send("error sia");
       return;
@@ -192,7 +192,7 @@ app.get("/product/:id/reviews", (req, res) => {
     return;
   }
 
-  Reviews.findByID(productid, (error, products) => {
+  Reviews.findReviewsByID(productid, (error, products) => {
     if (error) {
       res.status(500).send("error sia");
       return;
@@ -263,7 +263,7 @@ app.get("/promotion/:productid", (req, res) => {
     res.status(400).send();
     return;
   }
-  Promotion_product.findByID(productid, (error, products) => {
+  Promotion_product.findPromotionByID(productid, (error, products) => {
     if (error) {
       res.status(500).send("error sia");
       return;

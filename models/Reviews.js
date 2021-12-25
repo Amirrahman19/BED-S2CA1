@@ -7,7 +7,7 @@ Class : DAAA/FT/1B/01
 const db = require("./databaseConfig.js");
 
 const Reviews = {
-  findByID: (productid, callback) => {
+  findBReviewsByID: (productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {

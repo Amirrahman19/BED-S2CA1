@@ -2,7 +2,7 @@ const db = require("./databaseConfig.js");
 
 const Category = {
 
-  findAll: function (callback) {
+  findAllCategories: function (callback) {
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
       if (err) {
