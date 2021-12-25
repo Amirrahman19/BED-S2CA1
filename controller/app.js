@@ -14,7 +14,6 @@ var Interest = require('../models/Interest');
 var Promotion_product = require('../models/Promotion_product');
 var app = express();
 
-
 app.use(bodyParser.json());
 
 //Endpoint 2
