@@ -21,7 +21,7 @@ app.get("/users/", (req, res, next) => {
   User.findAllUsers((error, users) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
     };
     res.status(200).send(users);
   });
@@ -37,7 +37,7 @@ app.get("/users/:id/", (req, res) => {
 
   User.findUsersByID(userID, (error, user) => {
     if (error) {
-      res.status(500).send("error sia");
+      res.status(500).send("What is the error?");
       return;
     };
 
@@ -54,9 +54,10 @@ app.post("/users/", (req, res, next) => {
   User.insert(req.body, (error, userID) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
-    };
+    }
+    else {res.status(422).send("Unprocessable Entity")};
     res.status(201).send({ userID });
   });
 });
@@ -72,9 +73,10 @@ app.put("/users/:id/", (req, res, next) => {
   User.update(userID, req.body, (error) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
-    };
+    }
+    else {res.status(422).send("Unprocessable Entity")};
     res.status(204).send();
   });
 });
@@ -84,7 +86,7 @@ app.get("/category/", (req, res, next) => {
   Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
     };
     res.status(200).send(users);
   });
@@ -95,9 +97,10 @@ app.post("/category", (req, res, next) => {
   Category.insert(req.body, (error, category) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
-    };
+    }
+    else {res.status(422).send("Unprocessable Entity")};
     res.status(201).send({ category });
   });
 });
@@ -113,7 +116,7 @@ app.get("/product/:id/", (req, res) => {
 
   Product.findProductByID(productid, (error, products) => {
     if (error) {
-      res.status(500).send("error sia");
+      res.status(500).send("What is the error?");
       return;
     };
 
@@ -131,7 +134,7 @@ app.post("/product/", (req, res, next) => {
   Product.insert(req.body, (error, productid) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     };
     res.status(201).send({ productid });
@@ -148,7 +151,7 @@ app.delete('/product/:id/', (req, res) => {
   Product.delete(productid, (error) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     };
     res.status(204).send();
@@ -170,7 +173,7 @@ app.post("/product/:id/review/", (req, res, next) => {
   Reviews.insert(review, productid, (error, reviewid) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     } else {
       if (reviewid === null) {
@@ -193,7 +196,7 @@ app.get("/product/:id/reviews", (req, res) => {
 
   Reviews.findReviewsByID(productid, (error, products) => {
     if (error) {
-      res.status(500).send("error sia");
+      res.status(500).send("What is the error?");
       return;
     };
 
@@ -231,7 +234,7 @@ app.post("/interest/:userid", (req, res, next) => {
   Interest.insert(catArr, userid, (error, interest) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     };
     res.status(201).send({ interest });
@@ -246,7 +249,7 @@ app.post("/promotion/:productid", (req, res, next) => {
   Promotion_product.insert(productid, promotion, (error, promotion) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     };
     res.status(201).send({ promotion });
@@ -264,7 +267,7 @@ app.get("/promotion/:productid", (req, res) => {
   }
   Promotion_product.findPromotionByID(productid, (error, products) => {
     if (error) {
-      res.status(500).send("error sia");
+      res.status(500).send("What is the error?");
       return;
     };
     // send a 404 if user is not found.
@@ -286,7 +289,7 @@ app.delete('/promotion/:productid/', (req, res) => {
   Promotion_product.delete(productid, (error) => {
     if (error) {
       console.log(error);
-      res.status(500).send();
+      res.status(500).send("What is the error?");
       return;
     };
     res.status(204).send();
