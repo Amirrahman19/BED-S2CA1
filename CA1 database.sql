@@ -187,14 +187,6 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'Terry Tan','terry@gmail.com',98765432,'Customer','https://www.abc.com/terry.jpg','2021-12-15 12:27:21'),(2,'Amir Rahman','amirramen@gmail.com',96209012,'Customer','https://www.abc.com/amirramen.jpg','2021-12-15 12:58:33'),(3,'Percy Jackson','percyjackson@gmail.com',98765432,'Customer','https://www.abc.com/percyj.jpg','2021-12-16 10:00:06');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'sp_it'
---
-
---
--- Dumping routines for database 'sp_it'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -205,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-27 16:19:37
+-- Dump completed on 2021-12-27 16:27:03
