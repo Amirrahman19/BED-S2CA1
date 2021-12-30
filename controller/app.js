@@ -313,7 +313,7 @@ app.delete('/promotion/:productid/', (req, res) => {
 // var upload = multer({
 //    storage: Storage
 //    fileFilter: (req, file, callback) => {
-// 		if (file.mimetype !== 'image/jpeg') { //Only allow jpg files to be uplaoded
+// 		if (file.mimetype !== 'image/jpeg') { //Only allow jpg files to be uploaded
 // 			return callback(new Error('File uploaded is not .jpg image file'));
 // 		}
 // 		callback(null, true);
@@ -331,7 +331,7 @@ app.delete('/promotion/:productid/', (req, res) => {
 //    upload(req, res, err => {
 //       if (err) {
 //          console.log(err);
-//          return res.status(404).send('somthing went wrong');
+//          return res.status(404).send('something went wrong');
 //       }
 //       return res.status(201).send('file uploaded successfully');
 //    });
