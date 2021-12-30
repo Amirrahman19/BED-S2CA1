@@ -301,6 +301,7 @@ app.delete('/promotion/:productid/', (req, res) => {
   })
 })
 
+// Uploading images (specific types with size limit)
 // var Storage = multer.diskStorage({
 //    destination: function(req, file, callback) {
 //       callback(null, 'images')
