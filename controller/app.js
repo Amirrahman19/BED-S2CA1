@@ -12,9 +12,14 @@ var Product = require('../models/Product');
 var Reviews = require('../models/Reviews');
 var Interest = require('../models/Interest');
 var Promotion_product = require('../models/Promotion_product');
+const multer = require('multer');
 var app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+
 
 //Endpoint 2
 app.get("/users/", (req, res, next) => {
@@ -295,5 +300,40 @@ app.delete('/promotion/:productid/', (req, res) => {
     res.status(204).send();
   })
 })
+
+// var Storage = multer.diskStorage({
+//    destination: function(req, file, callback) {
+//       callback(null, 'images')
+//    },
+//    filename: function(req, file, callback) {
+//       callback(null, file.originalname);
+//    }
+// });
+// var upload = multer({
+//    storage: Storage
+//    fileFilter: (req, file, callback) => {
+// 		if (file.mimetype !== 'image/jpeg') { //Only allow jpg files to be uplaoded
+// 			return callback(new Error('File uploaded is not .jpg image file'));
+// 		}
+// 		callback(null, true);
+// 	},
+// 	limits: {
+// 		fileSize: 1000000, //Maximum 1MB(1000000 Byte) files to be uploaded
+// 		files: 1 //Maximum one files to be uploaded
+// 	}
+// }).array('image', 3);
+// //route
+// app.post('/', (req, res) => {});
+
+// app.post('/upload', (req, res) => {
+//    console.log(req.file);
+//    upload(req, res, err => {
+//       if (err) {
+//          console.log(err);
+//          return res.status(404).send('somthing went wrong');
+//       }
+//       return res.status(201).send('file uploaded successfully');
+//    });
+// });
 
 module.exports = app;
