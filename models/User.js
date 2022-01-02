@@ -1,3 +1,8 @@
+/*
+Admission Number: P2100803
+Name: Haja Amir Rahman
+Class : DAAA/FT/1B/01
+*/
 
 const db = require("./databaseConfig");
 
