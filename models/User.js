@@ -57,7 +57,7 @@ const User = {
         return callback(err, null);
       } else {
         var sql = "INSERT INTO users (username, email, contact, type, profile_pic_url) VALUES (?, ?, ?, ?, ?)";
-        dbConn.query(sql, [user.username, user.email, user.contact, user.type, user.profile_pic_url], (error, results) => {//square for array of all the userids
+        dbConn.query(sql, [user.username, user.email, user.contact, user.type, user.profile_pic_url], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
