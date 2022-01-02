@@ -3,7 +3,7 @@ Admission Number: P2100803
 Name: Haja Amir Rahman
 Class : DAAA/FT/1B/01
 */
-
+//importing classes from other files
 const express = require('express');
 const bodyParser = require('body-parser');
 var User = require('../models/User');
@@ -11,15 +11,29 @@ var Category = require('../models/Category');
 var Product = require('../models/Product');
 var Reviews = require('../models/Reviews');
 var Interest = require('../models/Interest');
+// used for the 2nd advanced feature
 var Promotion_product = require('../models/Promotion_product');
+// used for the first advanced feature of retrieving & uploading the product image
 const multer = require('multer');
 var app = express();
-
+//body-parser (middleware)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }))
 
+//Endpoint 1
+app.post("/users/", (req, res, next) => {
+  User.insert(req.body, (error, userID) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send("What is the error?");
+      return;
+    }
+    else { res.status(422).send("Unprocessable Entity") };
+    res.status(201).send({ userID });
+  });
+});
 
 //Endpoint 2
 app.get("/users/", (req, res, next) => {
@@ -54,18 +68,6 @@ app.get("/users/:id/", (req, res) => {
     res.status(200).send(user);
   });
 });
-//Endpoint 1
-app.post("/users/", (req, res, next) => {
-  User.insert(req.body, (error, userID) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("What is the error?");
-      return;
-    }
-    else { res.status(422).send("Unprocessable Entity") };
-    res.status(201).send({ userID });
-  });
-});
 
 //Endpoint 4
 app.put("/users/:id/", (req, res, next) => {
@@ -85,6 +87,18 @@ app.put("/users/:id/", (req, res, next) => {
     res.status(204).send();
   });
 });
+//Endpoint 5
+app.post("/category", (req, res, next) => {
+  Category.insert(req.body, (error, category) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send("What is the error?");
+      return;
+    }
+    else { res.status(422).send("Unprocessable Entity") };
+    res.status(201).send({ category });
+  });
+});
 
 //Endpoint 6
 app.get("/category/", (req, res, next) => {
@@ -97,16 +111,16 @@ app.get("/category/", (req, res, next) => {
   });
 });
 
-//Endpoint 5
-app.post("/category", (req, res, next) => {
-  Category.insert(req.body, (error, category) => {
+
+//Endpoint 7
+app.post("/product/", (req, res, next) => {
+  Product.insert(req.body, (error, productid) => {
     if (error) {
       console.log(error);
       res.status(500).send("What is the error?");
       return;
-    }
-    else { res.status(422).send("Unprocessable Entity") };
-    res.status(201).send({ category });
+    };
+    res.status(201).send({ productid });
   });
 });
 
@@ -134,17 +148,6 @@ app.get("/product/:id/", (req, res) => {
   });
 });
 
-//Endpoint 7
-app.post("/product/", (req, res, next) => {
-  Product.insert(req.body, (error, productid) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("What is the error?");
-      return;
-    };
-    res.status(201).send({ productid });
-  });
-});
 
 //Endpoint 9
 app.delete('/product/:id/', (req, res) => {
@@ -214,21 +217,6 @@ app.get("/product/:id/reviews", (req, res) => {
   });
 });
 
-// app.delete('/product/:id/reviews', (req, res) => {
-//   var productid = parseInt(req.params.id);
-//   if (isNaN(productid)) {
-//     res.status(400).send();
-//     return;
-//   }
-//   Reviews.delete(productid, (error) => {
-//     if (error) {
-//       console.log(error);
-//       res.status(500).send();
-//       return;
-//     };
-//     res.status(204).send();
-//   })
-// })
 
 //Endpoint 12
 app.post("/interest/:userid", (req, res, next) => {
