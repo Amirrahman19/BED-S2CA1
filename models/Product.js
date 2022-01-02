@@ -28,6 +28,25 @@ const Product = {
       }
     });
   }, 
+  findProductImageByProductID: (productid, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "SELECT product_image FROM product WHERE productid = ?;";
+        dbConn.query(sql, [productid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          console.log(results[0]);
+          return callback(null, results[0]);
+        });
+      }
+    });
+  },
   insert: (product, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {

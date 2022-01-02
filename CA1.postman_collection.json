@@ -216,7 +216,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "11"
+							"value": "10"
 						}
 					]
 				}
@@ -447,6 +447,62 @@
 					"variable": [
 						{
 							"key": "id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "productImage",
+							"type": "file",
+							"src": "/C:/Users/amir_/OneDrive - Singapore Polytechnic/VSC/PROGRAMMING/JAVASCRIPT/SEM2/JS-SCH/CA1Assignment/BED-S2CA1/W9rAWoBGfgnoiyBs7QizVE.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/upload/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"upload",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/uploads",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/upload/:productid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"upload",
+						":productid"
+					],
+					"variable": [
+						{
+							"key": "productid",
 							"value": "10"
 						}
 					]

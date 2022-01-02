@@ -313,11 +313,9 @@ var Storage = multer.diskStorage({
 var upload = multer({
   storage: Storage,
   fileFilter: (req, file, callback) => {
-    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png') { //Only allow jpg files to be uploaded
-      callback(null, true);
-    } else {
-      return callback(new Error('File uploaded is not .jpg or a .png image file'));
-    }
+    if (file.mimetype !== 'image/jpg' || file.mimetype !== 'image/png') { //Only allow jpg files to be uploaded
+      return callback(null, true);
+    } callback(null, false)
 
   },
   limits: {
@@ -333,7 +331,7 @@ app.post('/upload/:productid', (req, res) => {
   upload(req, res, err => {
     if (err) {
       console.log(err);
-      return res.status(404).send(err.message);
+      return res.status(404).send(err.message);   
     }
 
     //update to database
@@ -350,6 +348,27 @@ app.post('/upload/:productid', (req, res) => {
     });
 
 
+  });
+});
+
+app.get("/upload/:productid", (req, res) => {
+  const productid = parseInt(req.params.productid);
+  // if userID is not a number, send a 400.
+  if (isNaN(productid)) {
+    res.status(400).send();
+    return;
+  }
+  Product.findProductImageByProductID(productid, (error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+    // send a 404 if user is not found.
+    if (products === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
   });
 });
 

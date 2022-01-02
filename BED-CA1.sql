@@ -85,6 +85,7 @@ CREATE TABLE `product` (
   `categoryid` int NOT NULL,
   `brand` varchar(255) NOT NULL,
   `price` decimal(10,0) NOT NULL,
+  `product_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`productid`),
   KEY `Product_category_categoryid_idx` (`categoryid`),
   CONSTRAINT `Product_category_categoryid` FOREIGN KEY (`categoryid`) REFERENCES `category` (`categoryid`)
@@ -97,7 +98,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (10,'SP AMD Ryzen 3600 Laptop','Best Laptop',1,'SP IT!',1858),(11,'Oppo Find X Pro 3','Best Phone',1,'SP IT!',2000);
+INSERT INTO `product` VALUES (10,'SP AMD Ryzen 3600 Laptop','Best Laptop',1,'SP IT!',1858,'1641108473526-W9rAWoBGfgnoiyBs7QizVE.jpg'),(11,'Oppo Find X Pro 3','Best Phone',1,'SP IT!',2000,'1641108219288-product-design-phone-blue.jpg');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-27 16:44:52
+-- Dump completed on 2022-01-02 15:32:59
