@@ -62,7 +62,7 @@ app.post("/users/", (req, res, next) => {
       res.status(500).send("What is the error?");
       return;
     }
-    else {res.status(422).send("Unprocessable Entity")};
+    else { res.status(422).send("Unprocessable Entity") };
     res.status(201).send({ userID });
   });
 });
@@ -81,7 +81,7 @@ app.put("/users/:id/", (req, res, next) => {
       res.status(500).send("What is the error?");
       return;
     }
-    else {res.status(422).send("Unprocessable Entity")};
+    else { res.status(422).send("Unprocessable Entity") };
     res.status(204).send();
   });
 });
@@ -105,7 +105,7 @@ app.post("/category", (req, res, next) => {
       res.status(500).send("What is the error?");
       return;
     }
-    else {res.status(422).send("Unprocessable Entity")};
+    else { res.status(422).send("Unprocessable Entity") };
     res.status(201).send({ category });
   });
 });
@@ -301,40 +301,56 @@ app.delete('/promotion/:productid/', (req, res) => {
   })
 })
 
-// // Uploading images (specific types with size limit)
-// var Storage = multer.diskStorage({
-//    destination: function(req, file, callback) {
-//       callback(null, 'images')
-//    },
-//    filename: function(req, file, callback) {
-//       callback(null, file.originalname);
-//    }
-// });
-// var upload = multer({
-//    storage: Storage
-//    fileFilter: (req, file, callback) => {
-// 		if (file.mimetype !== 'image/jpeg') { //Only allow jpg files to be uploaded
-// 			return callback(new Error('File uploaded is not .jpg image file'));
-// 		}
-// 		callback(null, true);
-// 	},
-// 	limits: {
-// 		fileSize: 1000000, //Maximum 1MB(1000000 Byte) files to be uploaded
-// 		files: 1 //Maximum one files to be uploaded
-// 	}
-// }).array('image', 3);
-// //route
-// app.post('/', (req, res) => {});
+// Uploading images (specific types with size limit)
+var Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, 'upload')
+  },
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + '-' + file.originalname);
+  }
+});
+var upload = multer({
+  storage: Storage,
+  fileFilter: (req, file, callback) => {
+    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png') { //Only allow jpg files to be uploaded
+      callback(null, true);
+    } else {
+      return callback(new Error('File uploaded is not .jpg or a .png image file'));
+    }
 
-// app.post('/upload', (req, res) => {
-//    console.log(req.file);
-//    upload(req, res, err => {
-//       if (err) {
-//          console.log(err);
-//          return res.status(404).send('something went wrong');
-//       }
-//       return res.status(201).send('file uploaded successfully');
-//    });
-// });
+  },
+  limits: {
+    fileSize: 1000000, //Maximum 1MB(1000000 Byte) files to be uploaded
+    files: 1 //Maximum one files to be uploaded
+  }
+}).single('productImage');
+//route
+app.post('/', (req, res) => { });
+
+app.post('/upload/:productid', (req, res) => {
+
+  upload(req, res, err => {
+    if (err) {
+      console.log(err);
+      return res.status(404).send(err.message);
+    }
+
+    //update to database
+    var productid = parseInt(req.params.productid);
+    var filename = req.file.filename;
+    console.log(req.file)
+    Product.updateImage(productid, filename, (error, product) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send("Error uploading image!");
+        return;
+      };
+      return res.status(201).send('file uploaded successfully');
+    });
+
+
+  });
+});
 
 module.exports = app;

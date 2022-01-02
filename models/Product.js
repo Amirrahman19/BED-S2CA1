@@ -46,6 +46,24 @@ const Product = {
       }
     });
   },
+  updateImage: (productid, product_image, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "UPDATE product SET product_image = ? WHERE productid = ?;";
+        dbConn.query(sql, [product_image,productid ], (error, results) => {//square for array of all the userids
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          return callback(null, results.insertId);
+        });
+      }
+    });
+  },
   delete(productid, callback) {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
