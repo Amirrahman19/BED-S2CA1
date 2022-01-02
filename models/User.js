@@ -4,7 +4,7 @@ const db = require("./databaseConfig");
 
 const User = {
 
-  findBUsersyID: (userID, callback) => {
+  findUsersByID: (userID, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
