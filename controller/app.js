@@ -326,6 +326,7 @@ var upload = multer({
 //route
 app.post('/', (req, res) => { });
 
+//Endpoint 16
 app.post('/upload/:productid', (req, res) => {
 
   upload(req, res, err => {
@@ -351,6 +352,7 @@ app.post('/upload/:productid', (req, res) => {
   });
 });
 
+//Endpoint 17
 app.get("/upload/:productid", (req, res) => {
   const productid = parseInt(req.params.productid);
   // if userID is not a number, send a 400.
