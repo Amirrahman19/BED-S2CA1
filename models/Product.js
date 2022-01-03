@@ -27,7 +27,7 @@ const Product = {
         });
       }
     });
-  }, 
+  },
   findProductImageByProductID: (productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
@@ -73,7 +73,7 @@ const Product = {
         return callback(err, null);
       } else {
         var sql = "UPDATE product SET product_image = ? WHERE productid = ?;";
-        dbConn.query(sql, [product_image,productid ], (error, results) => {//square for array of all the userids
+        dbConn.query(sql, [product_image, productid], (error, results) => {//square for array of all the userids
           dbConn.end();
           if (error) {
             return callback(error, null);

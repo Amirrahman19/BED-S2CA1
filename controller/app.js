@@ -18,19 +18,24 @@ const multer = require('multer');
 var app = express();
 //body-parser (middleware)
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}))
+var urlencodedParser = bodyParser.urlencoded({
+  extended: false
+})
+
+app.use(urlencodedParser);
 
 //Endpoint 1
 app.post("/users/", (req, res, next) => {
   User.insert(req.body, (error, userID) => {
     if (error) {
       console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
       res.status(500).send("What is the error?");
       return;
     }
-    else { res.status(422).send("Unprocessable Entity") };
+
     res.status(201).send({ userID });
   });
 });
@@ -80,11 +85,14 @@ app.put("/users/:id/", (req, res, next) => {
   User.update(userID, req.body, (error) => {
     if (error) {
       console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
       res.status(500).send("What is the error?");
       return;
     }
-    else { res.status(422).send("Unprocessable Entity") };
-    res.status(204).send();
+
+    res.status(204).send({ userID });
   });
 });
 //Endpoint 5
@@ -92,11 +100,13 @@ app.post("/category", (req, res, next) => {
   Category.insert(req.body, (error, category) => {
     if (error) {
       console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
       res.status(500).send("What is the error?");
       return;
     }
-    else { res.status(422).send("Unprocessable Entity") };
-    res.status(201).send({ category });
+    res.status(204).send({ category });
   });
 });
 
@@ -114,12 +124,16 @@ app.get("/category/", (req, res, next) => {
 
 //Endpoint 7
 app.post("/product/", (req, res, next) => {
+  console.log(req.body)
   Product.insert(req.body, (error, productid) => {
     if (error) {
       console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
       res.status(500).send("What is the error?");
       return;
-    };
+    }
     res.status(201).send({ productid });
   });
 });
@@ -320,7 +334,7 @@ app.post('/upload/:productid', (req, res) => {
   upload(req, res, err => {
     if (err) {
       console.log(err);
-      return res.status(404).send(err.message);   
+      return res.status(404).send(err.message);
     }
 
     //update to database
