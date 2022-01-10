@@ -8,7 +8,51 @@ const db = require("./databaseConfig");
 
 
 const User = {
+  //login
+  loginUser: function (email, password, callback) {
 
+    var conn = db.getConnection();
+    conn.connect(function (err) {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      }
+      else {
+        console.log("Connected!");
+
+        var sql = 'select * from user where email=? and password=?';
+
+        conn.query(sql, [email, password], function (err, result) {
+          conn.end();
+
+          if (err) {
+            console.log(err);
+            return callback(err, null);
+
+          } else {
+
+            // var msg='{\'result\':\''+result.length+'\'}';               
+            // return callback(null, msg);
+            //console.log(config.key);
+            //CREATING THE TOKEN
+            var token = "";
+            if (result.length == 1) {
+              token = jwt.sign(
+                { id: result[0].userid, role: result[0].role }, config.key, 
+                {expiresIn: 86400}) //expires in 24 hrs
+                //end of sign function
+
+            }
+
+            return callback(null, token);
+
+
+          }
+        });
+
+      }
+    });
+  },
   findUsersByID: (userID, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
