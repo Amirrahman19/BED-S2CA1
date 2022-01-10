@@ -23,21 +23,21 @@ var urlencodedParser = bodyParser.urlencoded({
 })
 
 app.use(urlencodedParser);
-var verifyToken=require('../auth/verifyToken.js');
+// var verifyToken=require('../auth/verifyToken.js');
 
 
-app.post('/login', function (req, res) {
-    var {email, password} = req.body; //(same as var email = req.body.email) and var password = req.body.password
-    userDB.loginUser(email, password, function(err, result) {
-      if(!err){
-        res.send("{\"result\":\""+result +"\"}");
+// app.post('/login', function (req, res) {
+//     var {email, password} = req.body; //(same as var email = req.body.email) and var password = req.body.password
+//     User.loginUser(email, password, function(err, result) {
+//       if(!err){
+//         res.send("{\"result\":\""+result +"\"}");
 
-    }else{
-        res.status(500);
-        res.send(err.statusCode);
-    }
-  })
-})
+//     }else{
+//         res.status(500);
+//         res.send(err.statusCode);
+//     }
+//   })
+// })
 //Endpoint 1
 app.post("/users/", (req, res, next) => {
   User.insert(req.body, (error, userID) => {
