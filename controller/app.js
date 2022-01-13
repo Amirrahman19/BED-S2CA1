@@ -6,6 +6,9 @@ Class : DAAA/FT/1B/01
 //importing classes from other files
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = require("../config.js");
+const isLoggedInMiddleware = require("../auth/isLoggedInMiddleware");
 var User = require('../models/User');
 var Category = require('../models/Category');
 var Product = require('../models/Product');
@@ -21,23 +24,64 @@ app.use(bodyParser.json());
 var urlencodedParser = bodyParser.urlencoded({
   extended: false
 })
+var cors = require('cors');
 
+app.options('*', cors());
+app.use(cors());
 app.use(urlencodedParser);
-// var verifyToken=require('../auth/verifyToken.js');
 
 
-// app.post('/login', function (req, res) {
-//     var {email, password} = req.body; //(same as var email = req.body.email) and var password = req.body.password
-//     User.loginUser(email, password, function(err, result) {
-//       if(!err){
-//         res.send("{\"result\":\""+result +"\"}");
+app.post("/user/login", (req, res) => {
 
-//     }else{
-//         res.status(500);
-//         res.send(err.statusCode);
-//     }
-//   })
-// })
+  User.verify(req.body.email, req.body.password, "Customer", (error, user) => {
+    if (error) {
+      res.status(500).send();
+      return;
+    }
+    if (user === null) {
+      res.status(401).send();
+      return;
+    }
+    const payload = { user_id: user.userid };
+    jwt.sign(payload, JWT_SECRET, { algorithm: "HS256" }, (error, token) => {
+      if (error) {
+        console.log(error);
+        res.status(401).send();
+        return;
+      }
+      res.status(200).send({
+        token: token,
+        userInfo: user
+      });
+    })
+  });
+});
+
+app.post("/admin/login", (req, res) => {
+
+  User.verify(req.body.email, req.body.password, "Admin", (error, user) => {
+    if (error) {
+      res.status(500).send();
+      return;
+    }
+    if (user === null) {
+      res.status(401).send();
+      return;
+    }
+    const payload = { user_id: user.userid };
+    jwt.sign(payload, JWT_SECRET, { algorithm: "HS256" }, (error, token) => {
+      if (error) {
+        console.log(error);
+        res.status(401).send();
+        return;
+      }
+      res.status(200).send({
+        token: token,
+        userInfo: user
+      });
+    })
+  });
+});
 //Endpoint 1
 app.post("/users/", (req, res, next) => {
   User.insert(req.body, (error, userID) => {

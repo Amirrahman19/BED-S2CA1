@@ -5,55 +5,35 @@ Class : DAAA/FT/1B/01
 */
 
 const db = require("./databaseConfig");
-// var config = require('../config');
-// var jwt = require('jsonwebtoken');
 
 const User = {
-  // //login
-  // loginUser: function (email, password, callback) {
+  verify: function (email, password, role, callback) {
 
-  //   var conn = db.getConnection();
-  //   conn.connect(function (err) {
-  //     if (err) {
-  //       console.log(err);
-  //       return callback(err, null);
-  //     }
-  //     else {
-  //       console.log("Connected!");
+    var dbConn = db.getConnection();
+    dbConn.connect(function (err) {
+      if (err) {//database connection gt issue!
+        console.log(err);
+        return callback(err, null);
+      } else {
+        const query = "SELECT * FROM users WHERE email=? and password=? and role=?";
+        dbConn.query(query, [email, password, role], (error, results) => {
+          if (error) {
+            console.log(error)
+            callback(error, null);
+            return;
+          }
+          if (results.length === 0) {
+            return callback(null, null);
 
-  //       var sql = 'select * from users where email=? and password=?';
-
-  //       conn.query(sql, [email, password], function (err, result) {
-  //         conn.end();
-
-  //         if (err) {
-  //           console.log(err);
-  //           return callback(err, null);
-
-  //         } else {
-
-  //           // var msg='{\'result\':\''+result.length+'\'}';               
-  //           // return callback(null, msg);
-  //           //console.log(config.key);
-  //           //CREATING THE TOKEN
-  //           var token = "";
-  //           if (result.length == 1) {
-  //             token = jwt.sign(
-  //               { id: result[0].userid, role: result[0].role }, config.key, 
-  //               {expiresIn: 86400}) //expires in 24 hrs
-  //               //end of sign function
-
-  //           }
-
-  //           return callback(null, token);
-
-
-  //         }
-  //       });
-
-  //     }
-  //   });
-  // },
+          } else {
+            console.log(results)
+            const user = results[0];
+            return callback(null, user);
+          }
+        });
+      }
+    });
+  },
   findUsersByID: (userID, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
