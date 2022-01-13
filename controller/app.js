@@ -3,7 +3,7 @@ Admission Number: P2100803
 Name: Haja Amir Rahman
 Class : DAAA/FT/1B/01
 */
-//importing classes from other files
+//importing of modules and classes
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
