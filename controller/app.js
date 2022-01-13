@@ -14,6 +14,7 @@ var Category = require('../models/Category');
 var Product = require('../models/Product');
 var Reviews = require('../models/Reviews');
 var Interest = require('../models/Interest');
+var ProductImage = require('../models/ProductImage');
 // used for the 2nd advanced feature
 var Promotion_product = require('../models/Promotion_product');
 // used for the first advanced feature of retrieving & uploading the product image
@@ -399,7 +400,7 @@ app.post('/upload/:productid', (req, res) => {
     var productid = parseInt(req.params.productid);
     var filename = req.file.filename;
     console.log(req.file)
-    Product.updateImage(productid, filename, (error, product) => {
+    ProductImage.updateImage(productid, filename, (error, product) => {
       if (error) {
         console.log(error);
         res.status(500).send("Error uploading image!");
@@ -413,14 +414,14 @@ app.post('/upload/:productid', (req, res) => {
 });
 
 //Endpoint 17
-app.get("/upload/:productid", (req, res) => {
+app.get("/retrieve/:productid", (req, res) => {
   const productid = parseInt(req.params.productid);
-  // if userID is not a number, send a 400.
+
   if (isNaN(productid)) {
     res.status(400).send();
     return;
   }
-  Product.findProductImageByProductID(productid, (error, products) => {
+  ProductImage.findProductImageByProductID(productid, (error, products) => {
     if (error) {
       res.status(500).send("What is the error?");
       return;
