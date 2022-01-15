@@ -31,7 +31,7 @@ app.options('*', cors());
 app.use(cors());
 app.use(urlencodedParser);
 
-
+//Customer Login Page
 app.post("/user/login", (req, res) => {
 
   User.verify(req.body.email, req.body.password, "Customer", (error, user) => {
@@ -58,6 +58,7 @@ app.post("/user/login", (req, res) => {
   });
 });
 
+//Admin Login Page
 app.post("/admin/login", (req, res) => {
 
   User.verify(req.body.email, req.body.password, "Admin", (error, user) => {
@@ -84,7 +85,7 @@ app.post("/admin/login", (req, res) => {
   });
 });
 //Endpoint 1
-app.post("/users/", (req, res, next) => {
+app.post("/users/", isLoggedInMiddleware, (req, res, next) => {
   User.insert(req.body, (error, userID) => {
     if (error) {
       console.log(error);
