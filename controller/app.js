@@ -400,8 +400,8 @@ app.post('/upload/:productid', (req, res) => {
     //update to database
     var productid = parseInt(req.params.productid);
     var filename = req.file.filename;
-    console.log(req.file)
-    ProductImage.updateImage(productid, filename, (error, product) => {
+    console.log(filename)
+    ProductImage.insertImage(productid, filename, (error, product) => {
       if (error) {
         console.log(error);
         res.status(500).send("Error uploading image!");

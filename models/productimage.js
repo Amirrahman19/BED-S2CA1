@@ -26,15 +26,15 @@ const ProductImage = {
       }
     });
   },
-  updateImage: (productid, product_image, callback) => {
+  insertImage: (productid, product_image, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "UPDATE product_image SET product_image = ? WHERE productid = ?;";
-        dbConn.query(sql, [product_image, productid], (error, results) => {
+        var sql = "INSERT INTO product_image (productid, product_image) VALUES(?, ?);";
+        dbConn.query(sql, [productid, product_image], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
