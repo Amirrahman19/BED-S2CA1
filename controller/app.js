@@ -84,7 +84,7 @@ app.post("/admin/login", (req, res) => {
     })
   });
 });
-//Endpoint 1
+//Endpoint 1/Register page
 app.post("/users/", isLoggedInMiddleware, (req, res, next) => {
   User.insert(req.body, (error, userID) => {
     if (error) {
