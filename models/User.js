@@ -74,15 +74,15 @@ const User = {
       }
     });
   },
-  insert: (user, callback) => {
+  insertadmin: (user, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "INSERT INTO users (username, email, contact, password, type, profile_pic_url) VALUES (?, ?, ?, ?, ?, ?)";
-        dbConn.query(sql, [user.username, user.email, user.contact, user.password, user.type, user.profile_pic_url], (error, results) => {
+        var sql = "INSERT INTO users (username, email, contact, password, role, profile_pic_url) VALUES (?, ?, ?, ?, ?, ?)";
+        dbConn.query(sql, [user.username, user.email, user.contact, user.password, "Admin", ""], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
@@ -99,8 +99,8 @@ const User = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "INSERT INTO users (username, email, password, type, contact, profile_pic_url) VALUES (?, ?, ?, ?,)";
-        dbConn.query(sql, [user.username, user.email, user.contact, user.password, user.type, user.profile_pic_url], (error, results) => {
+        var sql = "INSERT INTO users (username, email, password, role, contact, profile_pic_url) VALUES (?, ?, ?, ?,?,?)";
+        dbConn.query(sql, [user.username, user.email, user.password, "Customer", user.contact, ""], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);

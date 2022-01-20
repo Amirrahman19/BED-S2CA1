@@ -85,8 +85,23 @@ app.post("/admin/login", (req, res) => {
   });
 });
 //Endpoint 1/Register page
-app.post("/users/", isLoggedInMiddleware, (req, res, next) => {
-  User.insert(req.body, (error, userID) => {
+app.post("/users/", (req, res, next) => {
+  User.insertuser(req.body, (error, userID) => {
+    if (error) {
+      console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
+      res.status(500).send("What is the error?");
+      return;
+    }
+
+    res.status(201).send({ userID });
+  });
+});
+
+app.post("/admin/", (req, res, next) => {
+  User.insertadmin(req.body, (error, userID) => {
     if (error) {
       console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
