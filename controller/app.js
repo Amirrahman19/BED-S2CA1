@@ -256,24 +256,24 @@ app.delete('/product/:id/', (req, res) => {
 })
 
 
-//Endpoint 10
+//Post reviews if the user is logged in/registered
 app.post("/product/:id/review/", (req, res, next) => {
+  console.log("hi")
   const productid = parseInt(req.params.id);
   const review = req.body;
-  if (isNaN(productid)) {
-    res.status(400).send();
-    return;
-  }
-  else {
-    console.log(typeof (id));
-  }
-  Reviews.insert(review, productid, (error, reviewid) => {
+  console.log(req.body)
+ 
+  Reviews.insertreviews(review, productid, (error, reviewid) => {
     if (error) {
-      console.log(error);
+      
+        if (error.code === "ER_DUP_ENTRY") {
+          return res.status(422).send()
+        }
+        console.log(error);
       res.status(500).send("What is the error?");
       return;
     } else {
-      if (reviewid === null) {
+      if (review === null) {
         res.status(404).send();
         return;
       }

@@ -27,7 +27,7 @@ const Reviews = {
       }
     });
   },
-  insert: (review, productid, callback) => {
+  insertreviews: (review, productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
