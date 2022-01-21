@@ -17,6 +17,7 @@ var Interest = require('../models/Interest');
 var ProductImage = require('../models/ProductImage');
 // used for the 2nd advanced feature
 var Promotion_product = require('../models/Promotion_product');
+var ProfileImage = require('../models/ProfileImage');
 // used for the first advanced feature of retrieving & uploading the product image
 const multer = require('multer');
 var app = express();
@@ -450,5 +451,52 @@ app.get("/retrieve/:productid", (req, res) => {
     res.status(200).send(products);
   });
 });
+//Uploading profile picture(advanced feature)
+// app.post('/profile/:userid', (req, res) => {
+
+//   upload(req, res, err => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(404).send(err.message);
+//     }
+
+//     //update to database
+//     var userid = parseInt(req.params.userid);
+//     var filename = req.file.filename;
+//     console.log(filename)
+//     ProfileImage.insertProfileImage(userid, filename, (error, profile) => {
+//       if (error) {
+//         console.log(error);
+//         res.status(500).send("Error uploading image!");
+//         return;
+//       };
+//       return res.status(201).send('file uploaded successfully');
+//     });
+
+
+//   });
+// });
+
+
+// app.get("/retrieve/:userid", (req, res) => {
+//   const userid = parseInt(req.params.userid);
+
+//   if (isNaN(userid)) {
+//     res.status(400).send();
+//     return;
+//   }
+//   ProfileImage.findProfileImageByUserID(userid, (error, profile) => {
+//     if (error) {
+//       res.status(500).send("What is the error?");
+//       return;
+//     };
+//     // send a 404 if user is not found.
+//     if (profile === null) {
+//       res.status(404).send("error");
+//       return;
+//     };
+//     res.status(200).send(profile);
+//   });
+// });
 
 module.exports = app;
