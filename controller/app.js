@@ -173,7 +173,7 @@ app.put("/users/:id/", (req, res, next) => {
   });
 });
 //Endpoint 5
-app.post("/admin/category/new", (req, res, next) => {
+app.post("/admin/category/new", isLoggedInMiddleware, (req, res, next) => {
   Category.insertnewcategory(req.body, (error, category) => {
     if (error) {
       console.log(error);
@@ -188,7 +188,7 @@ app.post("/admin/category/new", (req, res, next) => {
 });
 
 //Endpoint 6
-app.get("/admin/category/update", (req, res, next) => {
+app.get("/admin/category/update", isLoggedInMiddleware, (req, res, next) => {
   Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
@@ -200,7 +200,7 @@ app.get("/admin/category/update", (req, res, next) => {
 
 
 //Endpoint 7
-app.post("/admin/product/new", (req, res, next) => {
+app.post("/admin/product/new", isLoggedInMiddleware, (req, res, next) => {
   console.log(req.body)
   Product.insertnewproduct(req.body, (error, productid) => {
     if (error) {
@@ -241,13 +241,13 @@ app.get("/product/:id/", (req, res) => {
 
 
 //Endpoint 9
-app.delete('/product/:id/', (req, res) => {
+app.delete('/product/:id/', isLoggedInMiddleware, (req, res) => {
   var productid = parseInt(req.params.id);
   if (isNaN(productid)) {
     res.status(400).send();
     return;
   }
-  Product.delete(productid, (error) => {
+  Product.deleteproduct(productid, (error) => {
     if (error) {
       console.log(error);
       res.status(500).send("What is the error?");
@@ -259,7 +259,7 @@ app.delete('/product/:id/', (req, res) => {
 
 
 //Post reviews if the user is logged in/registered
-app.post("/product/:id/review/", (req, res, next) => {
+app.post("/product/:id/review/", isLoggedInMiddleware, (req, res, next) => {
   console.log("hi")
   const productid = parseInt(req.params.id);
   const review = req.body;
@@ -310,7 +310,7 @@ app.get("/product/:id/reviews", (req, res) => {
 
 
 //Endpoint 12
-app.post("/interest/:userid", (req, res, next) => {
+app.post("/interest/:userid", isLoggedInMiddleware, (req, res, next) => {
   const userid = parseInt(req.params.userid);
   const categoryids = req.body.categoryids;
   catArr = categoryids.split(",");
