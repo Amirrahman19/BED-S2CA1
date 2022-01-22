@@ -28,7 +28,7 @@ const Category = {
     });
   },
 
-  insert: function (category, callback) {
+  insertnewcategory: function (category, callback) {
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
       if (err) {

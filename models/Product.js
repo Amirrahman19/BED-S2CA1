@@ -29,7 +29,7 @@ const Product = {
     });
   },
   
-  insert: (product, callback) => {
+  insertnewproduct: (product, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {

@@ -172,8 +172,8 @@ app.put("/users/:id/", (req, res, next) => {
   });
 });
 //Endpoint 5
-app.post("/category", (req, res, next) => {
-  Category.insert(req.body, (error, category) => {
+app.post("/admin/category/new", (req, res, next) => {
+  Category.insertnewcategory(req.body, (error, category) => {
     if (error) {
       console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
@@ -187,7 +187,7 @@ app.post("/category", (req, res, next) => {
 });
 
 //Endpoint 6
-app.get("/category/", (req, res, next) => {
+app.get("/admin/category/update", (req, res, next) => {
   Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
@@ -199,9 +199,9 @@ app.get("/category/", (req, res, next) => {
 
 
 //Endpoint 7
-app.post("/product/", (req, res, next) => {
+app.post("/admin/product/new", (req, res, next) => {
   console.log(req.body)
-  Product.insert(req.body, (error, productid) => {
+  Product.insertnewproduct(req.body, (error, productid) => {
     if (error) {
       console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
