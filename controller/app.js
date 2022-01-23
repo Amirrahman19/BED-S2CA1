@@ -187,7 +187,7 @@ app.post("/admin/category/new", (req, res, next) => {
 });
 
 //Endpoint 6
-app.get("/admin/category/update", (req, res, next) => {
+app.get("/admin/category", (req, res, next) => {
   Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
@@ -196,7 +196,26 @@ app.get("/admin/category/update", (req, res, next) => {
     res.status(200).send(users);
   });
 });
+app.put("/admin/:categoryid/update", (req, res, next) => {
+  const categoryid = parseInt(req.params.categoryid);
+  if (isNaN(categoryid)) {
+    res.status(400).send();
+    return;
+  }
 
+  Category.updatecategory(categoryid, req.body, (error) => {
+    if (error) {
+      console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
+      res.status(500).send("What is the error?");
+      return;
+    }
+
+    res.status(204).send({ categoryid });
+  });
+});
 
 //Endpoint 7
 app.post("/admin/product/new", (req, res, next) => {
@@ -237,7 +256,26 @@ app.get("/product/:id/", (req, res) => {
     res.status(200).send(products);
   });
 });
+app.put("/admin/:productid/update", (req, res, next) => {
+  const productid = parseInt(req.params.productid);
+  if (isNaN(productid)) {
+    res.status(400).send();
+    return;
+  }
 
+  Product.updateproduct(productid, req.body, (error) => {
+    if (error) {
+      console.log(error);
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
+      res.status(500).send("What is the error?");
+      return;
+    }
+
+    res.status(204).send({ productid });
+  });
+});
 
 //Endpoint 9
 app.delete('/product/:id/', (req, res) => {

@@ -35,8 +35,8 @@ const Category = {
         console.log(err);
         return callback(err, null);
       } else {
-        const insertQuery =`INSERT INTO category (category, description) VALUES (?, ?);`;
-        dbConn.query(insertQuery, [category.category, category.description], (error, results) => {
+        const insertQuery =`INSERT INTO category (category, description, categorypics) VALUES (?, ?, ?);`;
+        dbConn.query(insertQuery, [category.category, category.description, ""], (error, results) => {
           dbConn.end()
           if (error) {
             return callback(error, null);
@@ -46,7 +46,24 @@ const Category = {
       }
     });
   },
-
+  updatecategory: (categoryid, category, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "UPDATE category SET category = ?, description = ? WHERE categoryid = ?;";
+        dbConn.query(sql, [category.category, category.description, categoryid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          return callback(null, results);
+        });
+      }
+    });
+  }
 }
 
 module.exports = Category;
