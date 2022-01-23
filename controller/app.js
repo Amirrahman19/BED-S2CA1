@@ -3,6 +3,7 @@ Admission Number: P2100803
 Name: Haja Amir Rahman
 Class : DAAA/FT/1B/01
 */
+
 //importing of modules and classes
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -172,7 +173,7 @@ app.put("/users/:id/", (req, res, next) => {
   });
 });
 //Endpoint 5
-app.post("/admin/category/new", (req, res, next) => {
+app.post("/admin/category/new", isLoggedInMiddleware, (req, res, next) => {
   Category.insertnewcategory(req.body, (error, category) => {
     if (error) {
       console.log(error);
@@ -218,7 +219,7 @@ app.put("/admin/:categoryid/update", (req, res, next) => {
 });
 
 //Endpoint 7
-app.post("/admin/product/new", (req, res, next) => {
+app.post("/admin/product/new", isLoggedInMiddleware, (req, res, next) => {
   console.log(req.body)
   Product.insertnewproduct(req.body, (error, productid) => {
     if (error) {
@@ -278,13 +279,13 @@ app.put("/admin/:productid/update", (req, res, next) => {
 });
 
 //Endpoint 9
-app.delete('/product/:id/', (req, res) => {
+app.delete('/product/:id/', isLoggedInMiddleware, (req, res) => {
   var productid = parseInt(req.params.id);
   if (isNaN(productid)) {
     res.status(400).send();
     return;
   }
-  Product.delete(productid, (error) => {
+  Product.deleteproduct(productid, (error) => {
     if (error) {
       console.log(error);
       res.status(500).send("What is the error?");
@@ -296,7 +297,7 @@ app.delete('/product/:id/', (req, res) => {
 
 
 //Post reviews if the user is logged in/registered
-app.post("/product/:id/review/", (req, res, next) => {
+app.post("/product/:id/review/", isLoggedInMiddleware, (req, res, next) => {
   console.log("hi")
   const productid = parseInt(req.params.id);
   const review = req.body;
@@ -347,7 +348,7 @@ app.get("/product/:id/reviews", (req, res) => {
 
 
 //Endpoint 12
-app.post("/interest/:userid", (req, res, next) => {
+app.post("/interest/:userid", isLoggedInMiddleware, (req, res, next) => {
   const userid = parseInt(req.params.userid);
   const categoryids = req.body.categoryids;
   catArr = categoryids.split(",");
@@ -429,7 +430,7 @@ var Storage = multer.diskStorage({
 var upload = multer({
   storage: Storage,
   fileFilter: (req, file, callback) => {
-    if (file.mimetype !== 'image/jpg' || file.mimetype !== 'image/png') { //Only allow jpg files to be uploaded
+    if (file.mimetype !== 'image/jpg' || file.mimetype !== 'image/png') { //Only allow jpg & png files to be uploaded
       return callback(null, true);
     } callback(null, false)
 

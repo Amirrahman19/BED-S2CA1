@@ -66,6 +66,7 @@ const Product = {
     });
   },
   updateproduct: (productid, product, callback) => {
+  deleteproduct(productid, callback) {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
@@ -78,7 +79,7 @@ const Product = {
           if (error) {
             return callback(error, null);
           };
-          return callback(null, results);
+           return callback(null, results);
         });
       }
     });
