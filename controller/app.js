@@ -188,7 +188,7 @@ app.post("/admin/category/new", isLoggedInMiddleware, (req, res, next) => {
 });
 
 //Endpoint 6
-app.get("/admin/category", (req, res, next) => {
+app.get("/retrieve/category", (req, res, next) => {
   Category.findAllCategories((error, users) => {
     if (error) {
       console.log(error);
