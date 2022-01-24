@@ -462,7 +462,7 @@ var upload = multer({
 app.post('/', (req, res) => { });
 
 //Endpoint 16
-app.post('/upload/:productid', (req, res) => {
+app.post('/admin/upload/:productid', (req, res) => {
 
   upload(req, res, err => {
     if (err) {
@@ -480,7 +480,7 @@ app.post('/upload/:productid', (req, res) => {
         res.status(500).send("Error uploading image!");
         return;
       };
-      return res.status(201).send('file uploaded successfully');
+      return res.status(201).send('File uploaded successfully');
     });
   });
 });
