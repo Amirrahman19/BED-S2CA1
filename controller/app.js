@@ -259,13 +259,13 @@ app.get("/retrieve/product/:id/", (req, res) => {
 });
 
 app.get("/retrieve/product/", (req, res) => {
- 
+
   Product.findAllProducts((error, products) => {
     if (error) {
       res.status(500).send("What is the error?");
       return;
     };
-
+    console.log(products)
     // send a 404 if user is not found.
     if (products === null) {
       res.status(404).send("error");
@@ -320,14 +320,14 @@ app.post("/product/:id/review/", isLoggedInMiddleware, (req, res, next) => {
   const productid = parseInt(req.params.id);
   const review = req.body;
   console.log(req.body)
- 
+
   Reviews.insertreviews(review, productid, (error, reviewid) => {
     if (error) {
-      
-        if (error.code === "ER_DUP_ENTRY") {
-          return res.status(422).send()
-        }
-        console.log(error);
+
+      if (error.code === "ER_DUP_ENTRY") {
+        return res.status(422).send()
+      }
+      console.log(error);
       res.status(500).send("What is the error?");
       return;
     } else {
