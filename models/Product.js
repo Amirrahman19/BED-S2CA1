@@ -28,7 +28,26 @@ const Product = {
       }
     });
   },
-  
+  findAllProducts: (callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "SELECT * FROM product;";
+        dbConn.query(sql, (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          console.log(results);
+          return callback(null, results);
+        });
+
+      }
+    });
+  },
   insertnewproduct: (product, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
