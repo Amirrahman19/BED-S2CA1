@@ -472,7 +472,7 @@ app.post('/upload/:productid', (req, res) => {
 
     //update to database
     var productid = parseInt(req.params.productid);
-    var filename = req.file.filename;
+    var filename = req.file.productImage;
     console.log(filename)
     ProductImage.insertImage(productid, filename, (error, product) => {
       if (error) {
@@ -482,8 +482,6 @@ app.post('/upload/:productid', (req, res) => {
       };
       return res.status(201).send('file uploaded successfully');
     });
-
-
   });
 });
 
