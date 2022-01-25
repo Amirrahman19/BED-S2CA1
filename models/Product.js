@@ -35,7 +35,7 @@ const Product = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "SELECT * FROM product;";
+        var sql = "SELECT * FROM product LEFT JOIN product_image ON product.productid = product_image.productid UNION SELECT * FROM product RIGHT JOIN product_image ON product.productid = product_image.productid";
         dbConn.query(sql, (error, results) => {
           dbConn.end();
           if (error) {
@@ -84,7 +84,7 @@ const Product = {
       }
     });
   },
-  
+
   updateproduct: (productid, product, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
@@ -98,7 +98,7 @@ const Product = {
           if (error) {
             return callback(error, null);
           };
-           return callback(null, results);
+          return callback(null, results);
         });
       }
     });

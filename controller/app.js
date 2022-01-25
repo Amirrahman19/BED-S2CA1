@@ -32,6 +32,7 @@ var cors = require('cors');
 app.options('*', cors());
 app.use(cors());
 app.use(urlencodedParser);
+app.use(express.static('public'));
 
 //Customer Login Page
 app.post("/user/login", (req, res) => {
@@ -439,7 +440,7 @@ app.delete('/promotion/:productid/', (req, res) => {
 // Uploading images (specific types with size limit)
 var Storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, 'upload')
+    callback(null, 'public/upload')
   },
   filename: function (req, file, callback) {
     callback(null, Date.now() + '-' + file.originalname);
@@ -472,7 +473,7 @@ app.post('/admin/upload/:productid', (req, res) => {
 
     //update to database
     var productid = parseInt(req.params.productid);
-    var filename = req.file.productImage;
+    var filename = req.file.filename;
     console.log(filename)
     ProductImage.insertImage(productid, filename, (error, product) => {
       if (error) {
@@ -506,6 +507,8 @@ app.get("/retrieve/:productid", (req, res) => {
     res.status(200).send(products);
   });
 });
+
+
 //Uploading profile picture(advanced feature)
 // app.post('/profile/:userid', (req, res) => {
 

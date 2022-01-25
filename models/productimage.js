@@ -44,6 +44,7 @@ const ProductImage = {
       }
     });
   }
+
 };
 
 module.exports = ProductImage;
