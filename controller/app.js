@@ -324,9 +324,9 @@ app.delete('/product/:id/', isLoggedInMiddleware, (req, res) => {
 
 
 //Post reviews if the user is logged in/registered
-app.post("/product/:id/review/", isLoggedInMiddleware, (req, res, next) => {
+app.post("/product/:productid/review/", isLoggedInMiddleware, (req, res, next) => {
   console.log("hi")
-  const productid = parseInt(req.params.id);
+  const productid = parseInt(req.params.productid);
   const review = req.body;
   console.log(req.body)
 
