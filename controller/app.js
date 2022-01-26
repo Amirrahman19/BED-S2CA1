@@ -373,7 +373,22 @@ app.get("/product/:id/reviews", (req, res) => {
   });
 });
 
+app.get("/retrieve/reviews", (req, res) => {;
 
+  Reviews.findAllReviews((error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+
+    // send a 404 if user is not found.
+    if (products === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
+  });
+});
 //Endpoint 12
 app.post("/interest/:userid", isLoggedInMiddleware, (req, res, next) => {
   const userid = parseInt(req.params.userid);
