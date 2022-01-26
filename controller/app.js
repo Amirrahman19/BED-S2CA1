@@ -332,11 +332,11 @@ app.post("/product/:id/review/", isLoggedInMiddleware, (req, res, next) => {
 
   Reviews.insertreviews(review, productid, (error, reviewid) => {
     if (error) {
-
+      console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
         return res.status(422).send()
       }
-      console.log(error);
+      
       res.status(500).send("What is the error?");
       return;
     } else {
@@ -533,7 +533,7 @@ app.get("/retrieve/:productid", (req, res) => {
 
 
 //Uploading profile picture(advanced feature)
-// app.post('/profile/:userid', (req, res) => {
+// app.post('/admin/upload/:categoryid', (req, res) => {
 
 //   upload(req, res, err => {
 //     if (err) {
@@ -542,19 +542,17 @@ app.get("/retrieve/:productid", (req, res) => {
 //     }
 
 //     //update to database
-//     var userid = parseInt(req.params.userid);
+//     var categoryid = parseInt(req.params.categoryid);
 //     var filename = req.file.filename;
 //     console.log(filename)
-//     ProfileImage.insertProfileImage(userid, filename, (error, profile) => {
+//     ProductImage.insertImage(categoryid, filename, (error, product) => {
 //       if (error) {
 //         console.log(error);
 //         res.status(500).send("Error uploading image!");
 //         return;
 //       };
-//       return res.status(201).send('file uploaded successfully');
+//       return res.status(201).send('File uploaded successfully');
 //     });
-
-
 //   });
 // });
 
