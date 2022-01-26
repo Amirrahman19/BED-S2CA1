@@ -324,13 +324,13 @@ app.delete('/product/:id/', isLoggedInMiddleware, (req, res) => {
 
 
 //Post reviews if the user is logged in/registered
-app.post("/product/:productid/review/", isLoggedInMiddleware, (req, res, next) => {
+app.post("/user/product/review/", isLoggedInMiddleware, (req, res, next) => {
   console.log("hi")
-  const productid = parseInt(req.params.productid);
+  // const productid = parseInt(req.params.productid);
   const review = req.body;
   console.log(req.body)
 
-  Reviews.insertreviews(review, productid, (error, reviewid) => {
+  Reviews.insertreviews(review, (error, reviewid) => {
     if (error) {
       console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
@@ -345,13 +345,13 @@ app.post("/product/:productid/review/", isLoggedInMiddleware, (req, res, next) =
         return;
       }
     };
-    res.status(201).send({ reviewid });
+    res.status(201).send({ reviewid:affectedRows });
   });
 });
 
 //Endpoint 11
-app.get("/product/:id/reviews", (req, res) => {
-  const productid = parseInt(req.params.id);
+app.get("/product/:productid/reviews", (req, res) => {
+  const productid = parseInt(req.params.productid);
   // if userID is not a number, send a 400.
   if (isNaN(productid)) {
     res.status(400).send();

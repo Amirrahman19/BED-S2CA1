@@ -49,7 +49,7 @@ const Reviews = {
       }
     });
   },
-  insertreviews: (review, productid, callback) => {
+  insertreviews: (review, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
@@ -57,7 +57,7 @@ const Reviews = {
         return callback(err, null);
       } else {
         var sql = "INSERT INTO reviews (productid, userid, rating, review) VALUES (?, ?, ?, ?)";
-        dbConn.query(sql, [productid, review.userid, review.rating, review.review], (error, results) => {
+        dbConn.query(sql, [review.productid, review.userid, review.rating, review.review], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
