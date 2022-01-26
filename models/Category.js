@@ -35,8 +35,8 @@ const Category = {
         console.log(err);
         return callback(err, null);
       } else {
-        const insertQuery =`INSERT INTO category (category, description, categorypics) VALUES (?, ?, ?);`;
-        dbConn.query(insertQuery, [category.category, category.description, ""], (error, results) => {
+        const sql =`INSERT INTO category (category, description, categorypics) VALUES (?, ?, ?);`;
+        dbConn.query(sql, [category.category, category.description, ""], (error, results) => {
           dbConn.end()
           if (error) {
             return callback(error, null);
