@@ -63,6 +63,7 @@ app.post("/user/login", (req, res) => {
 
 //Admin Login Page
 app.post("/admin/login", (req, res) => {
+  console.log('ádmin logging in');
 
   User.verify(req.body.email, req.body.password, "Admin", (error, user) => {
     if (error) {
@@ -80,6 +81,12 @@ app.post("/admin/login", (req, res) => {
         res.status(401).send();
         return;
       }
+
+
+      console.log(
+      
+        "Admin Login Successfully" + user.userid
+      )
       res.status(200).send({
         token: token,
         userInfo: user
@@ -231,7 +238,8 @@ app.post("/admin/product/new", isLoggedInMiddleware, (req, res, next) => {
       res.status(500).send("What is the error?");
       return;
     }
-    res.status(201).send({ productid });
+    console.log(productid);
+    res.status(201).send({productid} );
   });
 });
 

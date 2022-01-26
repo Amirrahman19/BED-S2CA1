@@ -49,6 +49,8 @@ const Product = {
     });
   },
   insertnewproduct: (product, callback) => {
+
+    console.log(product)
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {
@@ -56,7 +58,7 @@ const Product = {
         return callback(err, null);
       } else {
         var sql = "INSERT INTO product (name, description, categoryid, brand, price) VALUES (?, ?, ?, ?, ?)";
-        dbConn.query(sql, [product.name, product.description, product.categoryid, product.brand, product.price], (error, results) => {//square for array of all the userids
+        dbConn.query(sql, [product.name, product.description, product.category, product.brand, product.price], (error, results) => {//square for array of all the userids
           dbConn.end();
           if (error) {
             return callback(error, null);
