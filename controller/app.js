@@ -84,7 +84,7 @@ app.post("/admin/login", (req, res) => {
 
 
       console.log(
-      
+
         "Admin Login Successfully" + user.userid
       )
       res.status(200).send({
@@ -239,7 +239,7 @@ app.post("/admin/product/new", isLoggedInMiddleware, (req, res, next) => {
       return;
     }
     console.log(productid);
-    res.status(201).send({productid} );
+    res.status(201).send({ productid });
   });
 });
 
@@ -324,19 +324,19 @@ app.delete('/product/:id/', isLoggedInMiddleware, (req, res) => {
 
 
 //Post reviews if the user is logged in/registered
-app.post("/user/product/review/", isLoggedInMiddleware, (req, res, next) => {
+app.post("/user/:productid/review/", isLoggedInMiddleware, (req, res, next) => {
   console.log("hi")
-  // const productid = parseInt(req.params.productid);
+  const productid = parseInt(req.params.productid);
   const review = req.body;
   console.log(req.body)
 
-  Reviews.insertreviews(review, (error, reviewid) => {
+  Reviews.insertreviews(productid, review, (error, reviewid) => {
     if (error) {
       console.log(error);
       if (error.code === "ER_DUP_ENTRY") {
         return res.status(422).send()
       }
-      
+
       res.status(500).send("What is the error?");
       return;
     } else {
@@ -345,7 +345,7 @@ app.post("/user/product/review/", isLoggedInMiddleware, (req, res, next) => {
         return;
       }
     };
-    res.status(201).send({ reviewid:affectedRows });
+    res.status(201).send({ reviewid: affectedRows });
   });
 });
 
@@ -373,7 +373,8 @@ app.get("/product/:productid/reviews", (req, res) => {
   });
 });
 
-app.get("/retrieve/reviews", (req, res) => {;
+app.get("/retrieve/reviews", (req, res) => {
+  ;
 
   Reviews.findAllReviews((error, products) => {
     if (error) {
@@ -531,7 +532,16 @@ app.get("/retrieve/:productid", (req, res) => {
   });
 });
 
-
+app.get("/productname", (req, res) => {
+  Product.findAllProduct((error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+    res.status(200).send(products);
+  }
+  )
+});
 //Uploading profile picture(advanced feature)
 // app.post('/admin/upload/:categoryid', (req, res) => {
 
