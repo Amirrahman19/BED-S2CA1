@@ -511,7 +511,7 @@ app.post('/admin/upload/:productid', (req, res) => {
 });
 
 //Endpoint 17
-app.get("/retrieve/:productid", (req, res) => {
+app.get("/retrieve/:productid/image", (req, res) => {
   const productid = parseInt(req.params.productid);
 
   if (isNaN(productid)) {
