@@ -14,15 +14,17 @@ const Reviews = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "SELECT * FROM reviews WHERE productid = ?;";
+        var sql = `select u.username as username,p.name as productname, rating, review
+        from users as u,reviews as r, product as p
+        where u.userid = r.userid AND r.productid = p.productid and p.productid = ?;`;
         dbConn.query(sql, [productid], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
 
           };
-          console.log(results[0]);
-          return callback(null, results[0]);
+          console.log(results);
+          return callback(null, results);
         });
       }
     });
@@ -56,18 +58,18 @@ const Reviews = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "INSERT INTO reviews (productid, rating, review) VALUES (?, ?, ?)";
-        dbConn.query(sql, [productid, review.rating, review.review], (error, results) => {
+        var sql = "INSERT INTO reviews (productid, rating, review, userid) VALUES (?, ?, ?,?)";
+        dbConn.query(sql, [productid, review.rating, review.review, review.userid]), (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
           };
           return callback(null, results.insertId);
-        });
+        };
       }
     });
   }
-  
+
 };
 
 module.exports = Reviews;
