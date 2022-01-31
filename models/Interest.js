@@ -19,7 +19,7 @@ const Interest = {
         interests.forEach(element => { values.push([userid, parseInt(element)]); });
 
         console.log(values)
-        /** [
+        /* [
          * [1 , 1],
          * [1 , 2],
          * [1 , 4],
@@ -33,6 +33,61 @@ const Interest = {
             return callback(error, null);
           };
           return callback(null, results.insertId);
+        });
+      }
+    });
+  },
+  findInterestsByID: (interestid, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "SELECT * FROM interests WHERE interestid = ?;";
+        dbConn.query(sql, [interestid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          console.log(results[0]);
+          return callback(null, results[0]);
+        });
+      }
+    });
+  },
+  delete(catid, callback) {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "DELETE FROM interests WHERE categoryid = ?;";
+        dbConn.query(sql, [catid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          return callback(null, results);
+        });
+      }
+    });
+  },
+  getInterest: (userid, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "SELECT * FROM interests WHERE userid = ?;";
+        dbConn.query(sql, [userid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          return callback(null, results);
         });
       }
     });

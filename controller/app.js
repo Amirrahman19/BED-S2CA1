@@ -391,10 +391,10 @@ app.get("/retrieve/reviews", (req, res) => {
   });
 });
 //Endpoint 12
-app.post("/interest/:userid", isLoggedInMiddleware, (req, res, next) => {
+app.post("/interest/:userid", (req, res, next) => {
   const userid = parseInt(req.params.userid);
-  const categoryids = req.body.categoryids;
-  catArr = categoryids.split(",");
+  const categoryid = req.body.categoryid;
+  catArr = String(categoryid).split(",");
 
   Interest.insert(catArr, userid, (error, interest) => {
     if (error) {
@@ -403,6 +403,53 @@ app.post("/interest/:userid", isLoggedInMiddleware, (req, res, next) => {
       return;
     };
     res.status(201).send({ interest });
+  });
+});
+
+app.get("/interest/:userid", (req, res, next) => {
+  const userid = parseInt(req.params.userid);
+  Interest.getInterest(userid, (error, interest) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send("What is the error?");
+      return;
+    };
+    res.status(201).send({ interest });
+  });
+})
+
+app.delete('/user/interest/:catid', (req, res) => {
+  var catid = parseInt(req.params.catid);
+  Interest.delete(catid, (error) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send("What is the error?");
+      return;
+    };
+    res.status(204).send();
+  })
+})
+
+app.get("/inerest/:interestid", (req, res) => {
+  const productid = parseInt(req.params.productid);
+  // if userID is not a number, send a 400.
+  if (isNaN(productid)) {
+    res.status(400).send();
+    return;
+  }
+
+  Interest.findInterestsByID(productid, (error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+
+    // send a 404 if user is not found.
+    if (products === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
   });
 });
 
