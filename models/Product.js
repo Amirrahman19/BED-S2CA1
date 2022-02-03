@@ -123,6 +123,26 @@ const Product = {
         });
       }
     });
+  },
+  searchbar: (engine, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = `SELECT * FROM product where name like ? or brand like ?`;
+        engine = "%" + engine + "%";
+        dbConn.query(sql, [engine,engine], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          console.log(results);
+          return callback(null, results);
+        });
+      }
+    });
   }
 };
 

@@ -589,6 +589,23 @@ app.get("/productname", (req, res) => {
   }
   )
 });
+
+app.get("/searchbar/:engine/", (req, res) => {
+  const engine = req.params.engine;
+  Product.searchbar(engine, (error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+
+    // send a 404 if user is not found.
+    if (engine === "") {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
+  });
+});
 //Uploading profile picture(advanced feature)
 // app.post('/admin/upload/:categoryid', (req, res) => {
 
