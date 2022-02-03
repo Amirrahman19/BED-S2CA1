@@ -205,6 +205,29 @@ app.get("/retrieve/category", (req, res, next) => {
     res.status(200).send(users);
   });
 });
+app.get("/retrieve/category/:categoryid", (req, res) => {
+  const categoryid = parseInt(req.params.categoryid);
+  // if userID is not a number, send a 400.
+  if (isNaN(categoryid)) {
+    res.status(400).send();
+    return;
+  }
+
+  Category.findCategoriesByID(categoryid, (error, user) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+
+    // send a 404 if user is not found.
+    if (user === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(user);
+  });
+});
+
 app.put("/admin/:categoryid/update", (req, res, next) => {
   const categoryid = parseInt(req.params.categoryid);
   if (isNaN(categoryid)) {

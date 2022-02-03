@@ -27,7 +27,25 @@ const Category = {
       }
     });
   },
-
+  findCategoriesByID: (productid, callback) => {
+    var dbConn = db.getConnection();
+    dbConn.connect((err) => {
+      if (err) {
+        console.log(err);
+        return callback(err, null);
+      } else {
+        var sql = "SELECT * FROM product WHERE categoryid = ?;";
+        dbConn.query(sql, [productid], (error, results) => {
+          dbConn.end();
+          if (error) {
+            return callback(error, null);
+          };
+          console.log(results);
+          return callback(null, results);
+        });
+      }
+    });
+  },
   insertnewcategory: function (category, callback) {
     var dbConn = db.getConnection();
     dbConn.connect(function (err) {
