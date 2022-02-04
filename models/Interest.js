@@ -81,7 +81,7 @@ const Interest = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "SELECT * FROM interests WHERE userid = ?;";
+        var sql = "SELECT * FROM interests;";
         dbConn.query(sql, [userid], (error, results) => {
           dbConn.end();
           if (error) {

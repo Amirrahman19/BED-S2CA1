@@ -629,50 +629,49 @@ app.get("/searchbar/:engine/", (req, res) => {
     res.status(200).send(products);
   });
 });
-//Uploading profile picture(advanced feature)
-// app.post('/admin/upload/:categoryid', (req, res) => {
 
-//   upload(req, res, err => {
-//     if (err) {
-//       console.log(err);
-//       return res.status(404).send(err.message);
-//     }
+app.post('/admin/upload/:userid', (req, res) => {
 
-//     //update to database
-//     var categoryid = parseInt(req.params.categoryid);
-//     var filename = req.file.filename;
-//     console.log(filename)
-//     ProductImage.insertImage(categoryid, filename, (error, product) => {
-//       if (error) {
-//         console.log(error);
-//         res.status(500).send("Error uploading image!");
-//         return;
-//       };
-//       return res.status(201).send('File uploaded successfully');
-//     });
-//   });
-// });
+  upload(req, res, err => {
+    if (err) {
+      console.log(err);
+      return res.status(404).send(err.message);
+    }
 
+    //update to database
+    var userid = parseInt(req.params.userid);
+    var filename = req.file.filename;
+    console.log(filename)
+    ProfileImage.insertProfileImage(userid, filename, (error, product) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send("Error uploading image!");
+        return;
+      };
+      return res.status(201).send('File uploaded successfully');
+    });
+  });
+});
 
-// app.get("/retrieve/:userid", (req, res) => {
-//   const userid = parseInt(req.params.userid);
+app.get("/retrieve/:userid/image", (req, res) => {
+  const userid = parseInt(req.params.userid);
 
-//   if (isNaN(userid)) {
-//     res.status(400).send();
-//     return;
-//   }
-//   ProfileImage.findProfileImageByUserID(userid, (error, profile) => {
-//     if (error) {
-//       res.status(500).send("What is the error?");
-//       return;
-//     };
-//     // send a 404 if user is not found.
-//     if (profile === null) {
-//       res.status(404).send("error");
-//       return;
-//     };
-//     res.status(200).send(profile);
-//   });
-// });
+  if (isNaN(userid)) {
+    res.status(400).send();
+    return;
+  }
+  ProductImage.findProfileImageByUserID(userid, (error, products) => {
+    if (error) {
+      res.status(500).send("What is the error?");
+      return;
+    };
+    // send a 404 if user is not found.
+    if (products === null) {
+      res.status(404).send("error");
+      return;
+    };
+    res.status(200).send(products);
+  });
+});
 
 module.exports = app;
