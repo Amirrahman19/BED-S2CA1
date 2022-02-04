@@ -14,7 +14,7 @@ const ProfileImage = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "SELECT profile_image FROM profile_image WHERE userid = ?;";
+        var sql = "SELECT profile_pic_url FROM users WHERE userid = ?;";
         dbConn.query(sql, [userid], (error, results) => {
           dbConn.end();
           if (error) {
@@ -33,7 +33,7 @@ const ProfileImage = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "INSERT INTO profile_image (userid, profile_image) VALUES(?, ?);";
+        var sql = "INSERT INTO users (userid, profile_pic_url) VALUES(?, ?);";
         dbConn.query(sql, [userid, profile_image], (error, results) => {
           dbConn.end();
           if (error) {
