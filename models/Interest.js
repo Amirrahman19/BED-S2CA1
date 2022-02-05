@@ -50,8 +50,8 @@ const Interest = {
           if (error) {
             return callback(error, null);
           };
-          console.log(results[0]);
-          return callback(null, results[0]);
+          console.log(results);
+          return callback(null, results);
         });
       }
     });

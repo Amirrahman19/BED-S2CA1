@@ -453,26 +453,26 @@ app.delete('/user/interest/:catid', (req, res) => {
   })
 })
 
-app.get("/inerest/:interestid", (req, res) => {
-  const productid = parseInt(req.params.productid);
+app.get("/interest/:interestid", (req, res) => {
+  const interestid = parseInt(req.params.interestid);
   // if userID is not a number, send a 400.
-  if (isNaN(productid)) {
+  if (isNaN(interestid)) {
     res.status(400).send();
     return;
   }
 
-  Interest.findInterestsByID(productid, (error, products) => {
+  Interest.findInterestsByID(interestid, (error, interests) => {
     if (error) {
       res.status(500).send("What is the error?");
       return;
     };
 
     // send a 404 if user is not found.
-    if (products === null) {
+    if (interests === null) {
       res.status(404).send("error");
       return;
     };
-    res.status(200).send(products);
+    res.status(200).send(interests);
   });
 });
 
