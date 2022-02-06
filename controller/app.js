@@ -630,7 +630,7 @@ app.get("/searchbar/:engine/", (req, res) => {
   });
 });
 
-app.post('/admin/upload/:userid', (req, res) => {
+app.post('/users/upload/:userid', isLoggedInMiddleware, (req, res) => {
 
   upload(req, res, err => {
     if (err) {

@@ -33,8 +33,8 @@ const ProfileImage = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "INSERT INTO users (userid, profile_pic_url) VALUES(?, ?);";
-        dbConn.query(sql, [userid, profile_image], (error, results) => {
+        var sql = "UPDATE users SET profile_pic_url=? WHERE userid=?";
+        dbConn.query(sql, [profile_image, userid], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
