@@ -88,7 +88,7 @@ const Product = {
       }
     });
   },
-  delete(productid, callback) {
+  deleteproduct: (productid, callback) => {
     var dbConn = db.getConnection();
     dbConn.connect((err) => {
       if (err) {

@@ -117,8 +117,8 @@ const User = {
         console.log(err);
         return callback(err, null);
       } else {
-        var sql = "UPDATE users SET username = ?, email = ?, contact = ?, type = ? , profile_pic_url = ? WHERE userid = ?;";
-        dbConn.query(sql, [user.username, user.email, user.contact, user.type, user.profile_pic_url, userID], (error, results) => {
+        var sql = "UPDATE users SET username = ?, email = ?, contact = ?, role = ? , profile_pic_url = ? WHERE userid = ?;";
+        dbConn.query(sql, [user.username, user.email, user.contact, user.role, user.profile_pic_url, userID], (error, results) => {
           dbConn.end();
           if (error) {
             return callback(error, null);
